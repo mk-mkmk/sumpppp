@@ -1,0 +1,73 @@
+<form action='mission_2-3.php' method='post' >
+<input type ='text' name='message1' 	placeholder='名前'><br>
+<input type='text' name='message2'	placeholder='コメント'><br>
+<input type='submit'		value='送信'>
+<input type='text'	name='message3'	placeholder='消去対象番号'><br>
+<input type='submit'	value='消去'>
+
+</form>
+
+<?php
+
+	$filename='mission_2-1_SUZUKI.txt';
+	$fp=fopen($filename,'a');
+	if(!empty($_POST['message3'])){
+	$filename = 'mission_2-1_SUZUKI.txt';
+	$fp = fopen($filename, 'a');
+	$lines = file($filename);
+	
+	foreach($lines as  $value){
+	  if(count($lines) >= $j){
+	
+	      $pieces = explode($kugiri, $lines[$j-1]);
+	      
+	      if($_POST['message3'] == $pieces[0]){
+		unset($lines[$j-1]);
+		file_put_contents($filename, $lines);
+	
+		}else{
+		echo $pieces[0]." ". $pieces[1]." ". $pieces[2]." ". $pieces[3].'<br>';
+		}
+	  }
+	  $j++;
+	  
+	  $lines = file($filename);
+
+	}
+
+	fclose($fp); 
+}else{
+	
+if(!empty($_POST['message1'])&&!empty($_POST['message2'])){
+
+	$day=date('Y年m月d日　 h:i:s');
+	$kugiri='<>';
+	
+
+$lines=file($filename);
+fwrite($fp,(count($lines)+1).$kugiri.$_POST['message1'].$kugiri.$_POST['message2'].$kugiri.$day.PHP_EOL);
+
+
+$lines = file($filename);
+$i = 1;
+foreach($lines as  $value){
+  if(count($lines) >= $i){
+      $pieces = explode($kugiri, $lines[$i-1]);
+      echo $pieces[0]." ". $pieces[1]." ". $pieces[2]." ". $pieces[3].'<br>';
+  }
+  $i++;
+}
+fclose($fp);
+
+
+}
+}
+?>
+
+
+
+
+<?php
+header('content-Type: text/html; charset=UTF-8');
+
+?>
